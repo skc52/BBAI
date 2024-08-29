@@ -1,0 +1,39 @@
+﻿1. Loading and Extracting Data from grocery_store_a.json
+* Challenge: The JSON structure was complex, making it difficult to manually figure out the keys.
+* Solution:
+   * Wrote a script to recursively extract all the keys from the first element of the JSON file.
+   * Identified the relevant information needed, specifically:
+      * data -> product -> name
+      * priceInfo -> currentPrice
+   * Extracted the product name and current price for all items in the JSON.
+   * Stored the extracted data in a list of dictionaries.
+   * Converted the list of dictionaries into a DataFrame.
+   * Saved the DataFrame to an Excel file named grocery_store_products.xlsx.
+2. Loading and Extracting Data from grocery_store_b.json
+* Challenge: The data format was different from grocery_store_a.json, with items stored in HTML format.
+* Solution:
+   * Compared the HTML structure manually to determine the necessary div elements containing product name and price.
+   * Used the BeautifulSoup library to parse the HTML data.
+   * Extracted the product name and price from the relevant div elements.
+   * Stored the extracted data in a list of dictionaries.
+   * Converted the list of dictionaries into a DataFrame.
+   * Saved the DataFrame to an Excel file named grocery_storeB_products.xlsx.
+3. Price Discrepancy Analysis
+* Loading the Data:
+   * Loaded the Excel files (grocery_store_products.xlsx and grocery_storeB_products.xlsx) into DataFrames using Pandas.
+* Preprocessing:
+   * Standardized the product names by converting them to lowercase and stripping whitespace for consistent matching.
+   * Ensured the price columns were consistent by renaming them to Price_A and Price_B.
+   * Converted the price columns to numeric values, handling any conversion errors by setting them to NaN.
+* Finding Best Matches:
+   * Utilized the fuzzywuzzy library to find the best match for each product name from Store A in the list of names from Store B.
+   * Split the product names from Store A into 10 chunks to process in parallel using ProcessPoolExecutor for efficiency.
+   * Created a shared dictionary to store the best matching names between the two stores.
+* Merging and Calculating Discrepancies:
+   * Merged the two DataFrames on the matched product names.
+   * Calculated the price discrepancy for each matched product where both prices were available.
+   * Filtered out rows where price discrepancies were not applicable or empty.
+   * Sorted the final DataFrame by price discrepancy in descending order for easy analysis.
+* Saving the Results:
+   * Saved the final results, including product names and price discrepancies, to an Excel file named pricing_discrepancies.xlsx.
+   * Printed the final discrepancies to the console for immediate review.
